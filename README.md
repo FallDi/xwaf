@@ -6,16 +6,16 @@ Web application firewall based on rules; Protected from popular web-vulnerabilit
 <li>SQL-injection</li>
 <li>Path traversal</li>
 <li>NULL-byte injection</li>
-<li>etc</li>
+<li>etc.</li>
 </ul>
 
-<h3>Typicaly firewall workflow scheme</h3>
+<h3>Typically firewall workflow scheme</h3>
 <img src="http://178.49.9.210/files/1032/img.png"/>
 
 <h3>Parts of project</h3>
 <ul>
 <li>1) Links extractor</li>
-<li>2) Vulnerability detecter</li>
+<li>2) Vulnerability detector</li>
 <li>3) Proxy filter</li>
 </ul>
 
@@ -47,8 +47,9 @@ Also filter trying deobfuscation queries, for example <a href="http://en.wikiped
 <p><a href="https://www.owasp.org/index.php/Path_Traversal">Path traversal</a> <b>..</b> - 3 points</p>
 <p><a href="http://hakipedia.com/index.php/Full_Path_Disclosure#Array.5B.5D_Parameter_Injection">Array[] Parameter injection</a> <b>login[]</b> - 2 point</p>
 <p><a href="http://en.wikipedia.org/wiki/SQL_injection">SQL-injection</a> <b>password=p'or 1 --</b>  - 3 points</p>
-Sum is 8. If sum > 5 such request is blocked.
-Rules contains in SQLite database;
+<p>Sum is 8. If sum > 5 such request is blocked. Rules contains in SQLite database;</p>
+<p>Also analyze http response. For example if page show SQL-error such as "You have an error in your SQL syntax; check the manual that corresponds to your 
+MySQL server version for the right syntax to use near ''VALUE''')". This response not sends to client.</p>
 
 <h3>Logger</h3>
 <p>Every blocked requests stored in SQLite, and displays as html page. For example: </p>
