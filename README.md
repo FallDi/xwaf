@@ -37,7 +37,8 @@ Based logic of test suites:
 In GUI version you can specify host and parameters, cookie and GET or POST method
 <img src="http://178.49.9.210/files/1036/gui.png"/>
 </li>
-<li>3) ProxyFilter - java proxy; Binds on localhost:8888 and check all request on vulnerability and block if detected attack.</li>
+<li>3) ProxyFilter - java proxy; Binds on localhost:8888 and check all request on vulnerability and block if detected attack.
+Also filter trying deobfuscation queries, for example <a href="http://en.wikipedia.org/wiki/Percent-encoding">persent-encoding</a></li>
 </ul>
 
 <h3>Rule-weight</h3>
