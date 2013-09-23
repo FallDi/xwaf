@@ -1,0 +1,147 @@
+html {
+    height: 99%;
+}
+body {
+    min-height:99%;
+    height: 99%;
+    background-color: white;
+    font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
+    font-size: 14px;
+}
+html,body
+{
+    margin: 1px;
+    padding: 1px;
+}
+table
+{
+    border-collapse: collapse; 
+    border-color: gray;
+    border-width: 0px 0px 0px 0px;
+}
+td
+{
+    padding: 1px;
+    border-color: gray;
+    border-top-width: 1px;
+    border-right-width: 1px;
+    border-bottom-width: 1px;
+    border-left-width: 1px;
+}
+textarea 
+{
+    overflow: auto;
+}
+/* A */
+a
+{
+    color: blue;
+    text-decoration: none;
+}
+a img
+{
+    border: none;
+}
+a:link {}
+
+a:visited{}
+
+a:active{}
+
+a:hover
+{
+    text-decoration: underline;
+}
+p
+{
+    margin: 4px;
+}
+/* BUTTONS */
+input[type="button"], input[type="submit"], input[type="reset"]
+{
+    background-color: #66CC56;
+    color: white;
+    border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;
+    font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
+    font-size: 11pt;
+    text-align: center;
+    padding: 2px 4px;
+    margin: 1px;
+    border-style: solid;
+    border-color: #006600;
+    border-width: 1px 1px 1px 1px;
+    width: auto;
+    overflow: visible;
+}
+input[type="reset"]:hover
+{
+    background-color: #009933;
+}
+input[type="submit"]:hover
+{
+    background-color: #009933;
+}
+input[type="button"]:hover
+{
+    background-color: #009933;
+    border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;
+}
+/*INPUT*/
+input[type="text"], input[type="password"]
+{
+    border: 1px solid #aaa;
+    border-radius:4px;-moz-border-radius:4px;-webkit-border-radius:4px;
+}
+input[type="password"]:focus
+{
+    outline: none;/*	outline-width:0;*/
+    background: #ffe;
+    border-color: #00B0D8 #00B0D8 #00B0D8;
+}
+input[type="text"]:focus{
+    outline: none;/*	outline-width:0;*/
+    background: #ffe;
+    border-color: #00B0D8 #00B0D8 #00B0D8;
+}
+
+.menu_links
+{ 
+    display: block;
+    color: black;
+    font-family: tahoma, arial, verdana, sans-serif, Lucida Sans;
+    font-size: 12pt;
+    text-align: left;
+    text-decoration: none;
+    padding: 1px 1px;
+    margin-top: 1px;
+    background-color: ghostwhite;
+    cursor:default;
+}
+
+.menu_links:link,visited,active {}
+
+.menu_links:hover
+{
+    text-decoration: underline;
+    background-color: #CCCCFF;
+}
+
+.tableName
+{
+	color: #777777;
+	font-weight: bold;
+    font-size: large;
+}
+
+.txtFormLegend
+{
+    color: #777777;
+    font-weight: bold;
+    font-size: large;
+}
+
+.table_title
+{
+	background-color: #EDFFCF;
+	color:#000000;
+}

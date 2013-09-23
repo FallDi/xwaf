@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ProxyFilter" default="all" >
+	<property name="main.class" value="ru.nsu.parallels.xwaf.ProxyFilter"/>
+	<property name="manifest.classpath" value="lib/sqlitejdbc-v056.jar"/>
+	<property name="build.jar.name" value="ProxyFilter.jar"/>
+	<property name="lib.dir" value="lib"/>
+	<property name="dist.dir" value="dist"/>
+
+	<path id="classpath">
+        <fileset dir="${lib.dir}" includes="**/*.jar"/>
+    </path>
+	
+	<target name="make.dirs" description="Make some dirs">
+			<mkdir dir="build"/>
+			<mkdir dir="build/class"/>
+			<mkdir dir="${dist.dir}"/>
+			<mkdir dir="${dist.dir}/${lib.dir}"/>
+	</target>
+	
+	<target name="compile" depends="make.dirs">
+			<javac destdir="build/class" includeantruntime="false" classpathref="classpath">
+					<src path="src"/>
+			</javac>
+	</target>
+	
+	<target name="dist" description="make jar file" depends="compile">
+		<copy todir="${dist.dir}/lib">
+			<fileset dir="${lib.dir}"/>
+		</copy>
+		<jar destfile="${dist.dir}/${build.jar.name}">
+			<manifest>
+				<attribute name="Main-Class" value="${main.class}"/>
+				<attribute name="Class-Path" value="${manifest.classpath}"/>
+			</manifest>
+			<fileset dir="build/class">
+				<include name="**/*.class"/>
+			</fileset>
+		</jar>
+	</target>
+				 
+	<target name="all" description="Do the build"  depends="dist"/>
+	
+	<target name="clean" description="clean up">
+	 <!-- Delete the ${build} and ${dist} directory trees -->
+			<echo>Clean up</echo>
+			<delete dir="build"/>
+			<delete dir="${dist.dir}"/>
+	</target>
+</project>
