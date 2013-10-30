@@ -25,6 +25,7 @@ public class DatabaseManager {
     public static String RULE_TABLE_NAME = "rules";
     public static String LOGGER_TABLE_NAME = "logger";
     public static String BLACKLIST_IP_TABLE_NAME = "blacklistIp";
+    public static String WHITELIST_TABLE_NAME = "whitelist";
 
     public DatabaseManager() {
     }
@@ -38,7 +39,7 @@ public class DatabaseManager {
         Connection connection = null;
         ResultSet resultSet = null;
         Statement statement = null;
-        RulesGroup rulesGroup = new RulesGroup();
+        RulesGroup rulesGroup = new RulesGroup(this.getWhitelist());
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
@@ -120,6 +121,35 @@ public class DatabaseManager {
             }
         }
         return blacklistIp;
+    }
+
+    public Map<Integer, String> getWhitelist() {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        Statement statement = null;
+        HashMap<Integer, String> whitelist = new HashMap<Integer, String>();
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT id, urlPart FROM " + WHITELIST_TABLE_NAME);
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String ip = resultSet.getString("urlPart");
+                whitelist.put(id, ip);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                resultSet.close();
+                statement.close();
+                connection.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.toString());
+            }
+        }
+        return whitelist;
     }
 
     public String getLog(GregorianCalendar from, GregorianCalendar to) {

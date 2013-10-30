@@ -75,7 +75,7 @@ public class ProxyThread extends Thread {
                 clientOut.write(answerByte, 0, answerByte.length);
             } else {
                 Rule blockedRule = null;
-                if (null == (blockedRule = rules.isVulnerable(URLDecoder.decode(requestStr, "UTF-8")))) {
+                if (rules.inWhitelist(URLDecoder.decode(requestStr, "UTF-8")) || null == (blockedRule = rules.isVulnerable(URLDecoder.decode(requestStr, "UTF-8")))) {
                     // get response and send to client
                     server = new Socket(url.getHost(), 80);
                     servIn = new DataInputStream(server.getInputStream());

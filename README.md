@@ -58,6 +58,18 @@ MySQL server version for the right syntax to use near ''VALUE''')". This respons
 <h3>Blacklist/Whitelist</h3>
 <p>SQLite database contains table blacklistIp; All ip clients with such IP address will be blocked.</p>
 <p>To add IP-address into table use some SQLite manager, for example http://sqlitebrowser.sourceforge.net/; </p>
+<br/>
+<p>SQLite database contains table whitelist; You can insert into table part of url which cannot be analyse on vulnerabilities</p>
+<p>For example: applications phpmyadmin, jira, redmine, etc, may generate false positives. For example see request for Show all entries in table in phpmyadmin</p>
+<code>
+POST http://127.0.0.1/tools/phpmyadmin/sql.php HTTP/1.1
+Host: 127.0.0.1
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 135
+
+db=panel_prototype&table=domains&sql_query=SELECT+*+FROM+%60domains%60&pos=0&session_max_rows=all&goto=tbl_structure.php&navig=Show+all
+</code>
 
 <h3>Similar projects</h3>
 <ul>
