@@ -6,7 +6,7 @@ import java.util.regex.Matcher;
 
 /**
  *
- * @author daredevil
+ * @author FallDi
  */
 public class RulesGroup {
 

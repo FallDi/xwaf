@@ -35,15 +35,15 @@ public class Main {
             worker.start(args[SITE_ITEM], limit);
             worker.getResult(outputFileName);
         } catch (MalformedURLException error) {
-            System.err.println("Sorry, we can\'t connect to the URL");
+            System.err.println("Sorry, we can\'t connect to the URL: " + error.toString());
         } catch (IOException error) {
             error.printStackTrace(System.err);
         } catch (ParserConfigurationException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         } catch (TransformerException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         } catch (XMLStreamException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+            e.printStackTrace();
         }
     }
 }

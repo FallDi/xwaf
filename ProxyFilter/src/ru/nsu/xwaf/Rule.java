@@ -5,7 +5,7 @@ import ru.nsu.xwaf.HTTPRequest.TYPE_ITEM;
 
 /**
  *
- * @author daredevil
+ * @author FallDi
  */
 public class Rule {
 

@@ -1,8 +1,10 @@
 package ru.nsu.xwaf;
 
+import java.util.Map;
+
 /**
  *
- * @author daredevil
+ * @author FallDi
  */
 public class ProxyFilter {
 
@@ -17,7 +19,8 @@ public class ProxyFilter {
     public static void main(String args[]) {
         DatabaseManager dbm = new DatabaseManager();
         RulesGroup mainRules = dbm.loadDatabase();
-        FilterProxy fp = new FilterProxy(port, mainRules, dbm);
+        Map<Integer, String> blacklistIp = dbm.getIpBlacklist();
+        FilterProxy fp = new FilterProxy(port, mainRules, blacklistIp, dbm);
         fp.start();
     }
 }

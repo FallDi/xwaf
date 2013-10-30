@@ -1,14 +1,16 @@
 package ru.nsu.xwaf;
 
 import java.io.*;
+import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Map;
 
 /**
+ * Main logic of analyze request/response
  *
- * @author daredevil
+ * @author FallDi
  */
 public class ProxyThread extends Thread {
 
@@ -17,12 +19,14 @@ public class ProxyThread extends Thread {
     private static final int READ_BUFFERD_SIZE_REQUEST = 1;
     private static final int BUFFER_SIZE = 32000;
     private RulesGroup rules;
+    private Map<Integer, String> blacklistIp;
     private DatabaseManager dbm;
 
-    public ProxyThread(Socket socket, RulesGroup rules, DatabaseManager dbm) {
+    public ProxyThread(Socket socket, RulesGroup rules, Map<Integer, String> blacklistIp, DatabaseManager dbm) {
         super("ProxyThread");
         this.socket = socket;
         this.rules = rules;
+        this.blacklistIp = blacklistIp;
         this.dbm = dbm;
     }
 
@@ -34,8 +38,10 @@ public class ProxyThread extends Thread {
         DataOutputStream servOut = null;
         Socket server = null;
         try {
+            // initialize input streams
             clientOut = new DataOutputStream(socket.getOutputStream());
             clientIn = new DataInputStream(socket.getInputStream());
+            String clientIpAddress = ((InetSocketAddress) socket.getRemoteSocketAddress()).getHostName();
             // get request
             HTTPRequest hr;
             Map<String, String> fields;
@@ -58,34 +64,39 @@ public class ProxyThread extends Thread {
                     break;
                 }
             }
-            System.out.println(requestStr);
+            //System.out.println(requestStr);
             String[] tokens = requestStr.split(" ");
             String urlToCall = tokens[1];
             URL url = new URL(urlToCall);
-            Rule blockedRule = null;
-            if (null == (blockedRule = rules.isVulnerable(URLDecoder.decode(requestStr, "UTF-8")))) {
-                // get response and send to client
-                server = new Socket(url.getHost(), 80);
-                servIn = new DataInputStream(server.getInputStream());
-                servOut = new DataOutputStream(server.getOutputStream());
-                servOut.write(requestByte, 0, sizeRequest);
-
-                //begin send response to client byte by[] = new
-                byte[] by = new byte[BUFFER_SIZE];
-                index = servIn.read(by, 0, READ_BUFFER_SIZE);
-                int responseSize = 0;
-                while (index >= 0) {
-                    clientOut.write(by, 0, index);
-                    responseSize += index;
-                    index = servIn.read(by, 0, READ_BUFFER_SIZE);
-                }
-            } else {
-                Answer answer = new Answer("./answers/block.html");
+            if (blacklistIp.containsValue(clientIpAddress)) {
+                Answer answer = new Answer("./answers/blacklist_ip.html");
                 answer.loadFile();
-                byte[] answerByte = (answer.getAnswer(requestStr, blockedRule) + blockedRule.getName()).getBytes();
+                byte[] answerByte = (answer.getAnswerBlockIp(clientIpAddress)).getBytes();
                 clientOut.write(answerByte, 0, answerByte.length);
-                dbm.addLog(url, blockedRule, socket.getLocalAddress().getHostAddress());
-                dbm.updateLogFile();
+            } else {
+                Rule blockedRule = null;
+                if (null == (blockedRule = rules.isVulnerable(URLDecoder.decode(requestStr, "UTF-8")))) {
+                    // get response and send to client
+                    server = new Socket(url.getHost(), 80);
+                    servIn = new DataInputStream(server.getInputStream());
+                    servOut = new DataOutputStream(server.getOutputStream());
+                    servOut.write(requestByte, 0, sizeRequest);
+
+                    //begin send response to client byte by[] = new
+                    byte[] by = new byte[BUFFER_SIZE];
+                    index = servIn.read(by, 0, READ_BUFFER_SIZE);
+                    while (index >= 0) {
+                        clientOut.write(by, 0, index);
+                        index = servIn.read(by, 0, READ_BUFFER_SIZE);
+                    }
+                } else {
+                    Answer answer = new Answer("./answers/block.html");
+                    answer.loadFile();
+                    byte[] answerByte = (answer.getAnswerBlock(requestStr, blockedRule) + blockedRule.getName()).getBytes();
+                    clientOut.write(answerByte, 0, answerByte.length);
+                    dbm.addLog(url, blockedRule, socket.getLocalAddress().getHostAddress());
+                    dbm.updateLogFile();
+                }
             }
             clientOut.flush();
         } catch (IOException e) {

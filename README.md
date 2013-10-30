@@ -55,8 +55,15 @@ MySQL server version for the right syntax to use near ''VALUE''')". This respons
 <p>Every blocked requests stored in SQLite, and displays as html page. For example: </p>
 <img src="http://178.49.9.210/files/1035/img1.png"/>
 
+<h3>Blacklist/Whitelist</h3>
+<p>SQLite database contains table blacklistIp; All ip clients with such IP address will be blocked.</p>
+<p>To add IP-address into table use some SQLite manager, for example http://sqlitebrowser.sourceforge.net/; </p>
+
 <h3>Similar projects</h3>
 <ul>
 <li><a href="https://code.google.com/p/naxsi/">Naxsi</a></li>
 <li><a href="http://guardian.jumperz.net/index.html">Guardian@JUMPERZ.NET</a></li>
 </ul>
+
+<h3>Developers</h3>
+Students of Novosibirs State University =)

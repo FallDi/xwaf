@@ -6,8 +6,9 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 
 /**
+ * HTML response template
  *
- * @author daredevil
+ * @author FallDi
  */
 public class Answer {
 
@@ -15,6 +16,7 @@ public class Answer {
     private String fileName;
     private static final String REQUEST_PATTERN = "<request/>";
     private static final String BLOCKED_RULE = "<rule/>";
+    private static final String BLOCKED_IP = "<ip/>";
 
     public Answer(String fileName) {
         this.fileName = fileName;
@@ -34,7 +36,12 @@ public class Answer {
         }
     }
 
-    public String getAnswer(String request, Rule rule) {
+    public String getAnswerBlockIp(String ip) {
+        String fullAnswer = answer.replace(BLOCKED_IP, ip);
+        return "HTTP/1.1 200 OK\r\nContent-Length: " + String.valueOf(fullAnswer.length()) + "\r\n\r\n" + fullAnswer;
+    }
+
+    public String getAnswerBlock(String request, Rule rule) {
         String fullAnswer = answer.replace(REQUEST_PATTERN, request);
         fullAnswer = fullAnswer.replace(BLOCKED_RULE, rule.getName());
         return "HTTP/1.1 200 OK\r\nContent-Length: " + String.valueOf(fullAnswer.length()) + "\r\n\r\n" + fullAnswer;

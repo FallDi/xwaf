@@ -8,7 +8,7 @@ import java.util.Set;
 
 /**
  *
- * @author daredevil
+ * @author FallDi
  */
 public class HTTPRequest {
 

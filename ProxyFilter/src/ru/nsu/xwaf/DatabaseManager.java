@@ -10,10 +10,13 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
+ * Database management class
  *
- * @author daredevil
+ * @author FallDi
  */
 public class DatabaseManager {
 
@@ -21,6 +24,7 @@ public class DatabaseManager {
     public static String LOG_FILE_NAME = "./logs/result.html";
     public static String RULE_TABLE_NAME = "rules";
     public static String LOGGER_TABLE_NAME = "logger";
+    public static String BLACKLIST_IP_TABLE_NAME = "blacklistIp";
 
     public DatabaseManager() {
     }
@@ -89,19 +93,48 @@ public class DatabaseManager {
         return rulesGroup;
     }
 
+    public Map<Integer, String> getIpBlacklist() {
+        Connection connection = null;
+        ResultSet resultSet = null;
+        Statement statement = null;
+        HashMap<Integer, String> blacklistIp = new HashMap<Integer, String>();
+        try {
+            Class.forName("org.sqlite.JDBC");
+            connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
+            statement = connection.createStatement();
+            resultSet = statement.executeQuery("SELECT id, ip FROM " + BLACKLIST_IP_TABLE_NAME);
+            while (resultSet.next()) {
+                int id = resultSet.getInt("id");
+                String ip = resultSet.getString("ip");
+                blacklistIp.put(id, ip);
+            }
+        } catch (Exception e) {
+            System.out.println(e.toString());
+        } finally {
+            try {
+                resultSet.close();
+                statement.close();
+                connection.close();
+            } catch (SQLException ex) {
+                System.out.println(ex.toString());
+            }
+        }
+        return blacklistIp;
+    }
+
     public String getLog(GregorianCalendar from, GregorianCalendar to) {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         String result = new String();
-        result = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n" +
-                 "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n" +
-                 "    <head>\n" +
-                 "        <title>Logger</title>\n" +
-                 "        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n" +
-                 "        <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />\n" +
-                 "    </head>\n" +
-                 "    <body>\n";
+        result = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Strict//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd\">\n"
+                + "<html xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n"
+                + "    <head>\n"
+                + "        <title>Logger</title>\n"
+                + "        <meta http-equiv=\"content-type\" content=\"text/html; charset=utf-8\" />\n"
+                + "        <link rel=\"stylesheet\" type=\"text/css\" href=\"style.css\" />\n"
+                + "    </head>\n"
+                + "    <body>\n";
         try {
             Class.forName("org.sqlite.JDBC");
             connection = DriverManager.getConnection("jdbc:sqlite:" + DB_PATH);
@@ -127,8 +160,8 @@ public class DatabaseManager {
         } catch (Exception ex) {
             System.out.println(ex.toString());
         }
-        result += "     </body>\n" +
-                  "</html>";
+        result += "     </body>\n"
+                + "</html>";
         return result;
     }
 
@@ -152,9 +185,8 @@ public class DatabaseManager {
             System.out.println(ex.toString());
         }
     }
-    
-    public void updateLogFile()
-    {
+
+    public void updateLogFile() {
         try {
             GregorianCalendar start = new GregorianCalendar(2012, 05 - 1, 17);
             GregorianCalendar end = new GregorianCalendar();
