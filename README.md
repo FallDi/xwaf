@@ -72,9 +72,12 @@ db=panel_prototype&table=domains&sql_query=SELECT+*+FROM+%60domains%60&pos=0&ses
 ```
 
 <h3>Similar projects</h3>
+We don't know combination of vulnerability scanner + WAF.
+List of scanners &amp; WAFs;
 <ul>
-<li><a href="https://code.google.com/p/naxsi/">Naxsi</a></li>
-<li><a href="http://guardian.jumperz.net/index.html">Guardian@JUMPERZ.NET</a></li>
+<li><a href="http://www-03.ibm.com/software/products/us/en/appscan/">AppScan</a>, <a href="http://www.ptsecurity.ru/xs7/">XSpider</a> - really cool scanners, but commercial</li>
+<li><a href="https://github.com/nbs-system/naxsi/">Naxsi</a> - open source plugin for Nginx; rule-weight analysis</li>
+<li><a href="http://guardian.jumperz.net/index.html">Guardian@JUMPERZ.NET</a> - open source WAF, rule-based analysis</li>
 </ul>
 
 <h3>Developers</h3>
