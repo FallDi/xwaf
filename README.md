@@ -3,9 +3,9 @@ XWAF - X Web-application firewall
 
 Web application firewall based on rules; Protected from popular web-vulnerabilities such as 
 <ul>
-<li>SQL-injection</li>
-<li>Path traversal</li>
-<li>NULL-byte injection</li>
+<li><a href="https://www.owasp.org/index.php/SQL_Injection">SQL-injection</a></li>
+<li><a href="https://www.owasp.org/index.php/Path_Traversal">Path traversal</a></li>
+<li><a href="https://www.owasp.org/index.php/Embedding_Null_Code">NULL-byte injection</a></li>
 <li>etc.</li>
 </ul>
 
