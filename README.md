@@ -21,7 +21,8 @@ Project components
 How it work?
 ------------
 <img src="http://178.49.9.210/files/1034/im2.jpg"/>
-1. **Links extractor**. Takes a URL and tries to work around site recursively by links, keeping the values of the potential vulnerability GET/POST/COOKIE parameters.</li>
+
+1. **Links extractor**. Takes a URL and tries to work around site recursively by links, keeping the values of the potential vulnerability GET/POST/COOKIE parameters.
 2. **VulnerabilityDetecter**. Using a list of links, trying to identify vulnerabilities options. This using time-based SQL-Injection attack. This application is multithreading and has CLI & GUI version; Based logic of test suites:
 ```
 timeStart = time.now();
@@ -34,6 +35,7 @@ if (timeEnd - timeStart > 15) {
 ```
 In GUI version you can specify host and parameters, cookie and GET or POST method
 <img src="http://178.49.9.210/files/1036/gui.png"/>
+
 3. **ProxyFilter**. Java proxy; Binds on localhost:8888 and check all request on vulnerability and block if detected attack. Also filter trying deobfuscation queries, for example <a href="http://en.wikipedia.org/wiki/Percent-encoding">persent-encoding</a>
 
 Rule-weight
